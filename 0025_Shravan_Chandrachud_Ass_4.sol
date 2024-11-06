@@ -46,9 +46,27 @@ contract StudentData {
 
     // Function to retrieve a student's information by their index in the array
     function getStudent(uint index) public view returns (uint, string memory, uint) {
-        require(index < students.length, "Student index is out of bounds");
+        require(studentExists[index], "Student index is out of bounds or doesn't exists");
         
         Student memory student = students[index];
         return (student.id, student.name, student.grade);
+    }
+
+    function showStudentList() public view returns (uint[] memory, string[] memory, uint[] memory) {
+        uint length = students.length;
+    
+    // Initialize arrays to hold each field's data
+        uint[] memory ids = new uint[](length);
+        string[] memory names = new string[](length);
+        uint[] memory grades = new uint[](length);
+
+        for (uint i = 0; i < length; i++) {
+            Student memory student = students[i];
+            ids[i] = student.id;
+            names[i] = student.name;
+            grades[i] = student.grade;
+        }
+    
+        return (ids, names, grades);
     }
 }
